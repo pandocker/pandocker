@@ -41,7 +41,7 @@ RUN echo "deb http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ xenial main restricted un
     apt-get -y install --no-install-recommends texlive-xetex xzdec texlive-lang-japanese && \
     mkdir -p /usr/share/texlive/texmf-dist/tex/latex/BXptool/ && \
       wget -c https://github.com/zr-tex8r/BXptool/archive/v0.4.zip && \
-      unzip -e v0.4.zip && ls && \
+      unzip -e v0.4.zip && \
       cp BXptool-0.4/bx*.sty BXptool-0.4/bx*.def /usr/share/texlive/texmf-dist/tex/latex/BXptool/ && \
     mktexlsr && \
     wget -c https://github.com/adobe-fonts/source-code-pro/archive/2.030R-ro/1.050R-it.zip && \
@@ -69,7 +69,7 @@ RUN echo "deb http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ xenial main restricted un
     cd /home/pandocker && \
     wget -c https://github.com/K4zuki/pandoc_misc/archive/techbookfest-3.zip && \
 
-    apt-get -y remove *-doc curl wget python3-pip cabal-install ghc unzip && \
+    apt-get -y remove *-doc curl wget python3-pip && \
       rm /pandoc-$PANDOC_VERSION-1-amd64.deb && \
       rm /linux*.gz && \
       apt-get -y clean && apt -y autoremove
