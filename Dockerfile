@@ -12,11 +12,11 @@ RUN echo "deb http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ xenial main restricted un
     echo "deb http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ xenial-security main restricted universe multiverse" >> /etc/apt/sources.list && \
     apt-get -y update && \
     apt-get install -y wget curl \
-    python3 python3-pip \
-    cabal-install \
-    nodejs-legacy npm \
-    librsvg2-bin gpp \
-    graphviz \
+      python3 python3-pip \
+      cabal-install \
+      nodejs-legacy npm \
+      librsvg2-bin gpp \
+      graphviz && \
     curl -fsSL "$PLANTUML_DOWNLOAD_URL" -o /usr/local/plantuml.jar && \
     echo "#!/bin/bash" > /usr/local/bin/plantuml && \
     echo "java -jar /usr/local/plantuml.jar \$@" >> /usr/local/bin/plantuml && \
@@ -27,13 +27,14 @@ RUN echo "deb http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ xenial main restricted un
       tar zxf linux-ghc8-pandoc-2-0.tar.gz && \
       mv pandoc-crossref /usr/local/bin/ && \
     pip3 install pyyaml pillow && \
-    pantable csv2table && \
-    six pandoc-imagine && \
-    svgutils && \
-    npm install -g phantomjs-prebuilt wavedrom-cli && \
-    fs-extra yargs onml bit-field && \
-    apt-get -y install texlive-xetex \
-      xzdec texlive-lang-japanese \
+      pantable csv2table \
+      six pandoc-imagine \
+      svgutils && \
+    npm install -g phantomjs-prebuilt wavedrom-cli \
+      fs-extra yargs onml bit-field
+
+RUN apt-get -y install texlive-xetex \
+      xzdec texlive-lang-japanese && \
     tlmgr init-usertree && \
     tlmgr option repository ftp://tug.org/historic/systems/texlive/2015/tlnet-final && \
     mkdir -p /usr/share/texlive/texmf-dist/tex/latex/BXptool/ && \
