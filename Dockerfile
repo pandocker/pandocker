@@ -60,7 +60,8 @@ RUN echo "deb http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ xenial main restricted un
       rm -r ~/.cache/pip && \
       npm cache clean && \
       apt-get -y clean && \
-    fc-cache -fv
+    fc-cache -fv && \
+    git clone --depth=1 -b pandocker-0.0.1 https://github.com/K4zuki/pandoc_misc.git
 
 WORKDIR /workspace
 
