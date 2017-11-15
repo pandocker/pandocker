@@ -12,7 +12,7 @@ RUN echo "deb http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ xenial main restricted un
     echo "deb http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ xenial-security main restricted universe multiverse" >> /etc/apt/sources.list && \
     apt-get -y update && \
 
-    apt-get -y install wget curl unzip && \
+    apt-get -y install wget curl unzip git && \
     apt-get -y --no-install-recommends install librsvg2-bin gpp && \
 
     apt-get -y --no-install-recommends install graphviz plantuml && \
@@ -51,23 +51,26 @@ RUN echo "deb http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ xenial main restricted un
     wget -c https://github.com/mzyy94/RictyDiminished-for-Powerline/archive/3.2.4-powerline-early-2016.zip && \
       unzip -e 3.2.4-powerline-early-2016.zip && \
       cp RictyDiminished-for-Powerline-3.2.4-powerline-early-2016/RictyDiminished-*.ttf /usr/local/share/fonts/ && \
-      tlmgr option repository ftp://tug.org/historic/systems/texlive/2015/tlnet-final && \
-      tlmgr install oberdiek && \
+
+      # tlmgr option repository ftp://tug.org/historic/systems/texlive/2015/tlnet-final && \
+      # tlmgr install oberdiek && \
 
     addgroup --gid 82 pandocker && adduser --uid 82 --disabled-password --system --group pandocker && \
     cd /home/pandocker && \
-    wget -c https://github.com/K4zuki/pandoc_misc/archive/techbookfest-3.zip && \
+    # wget -c https://github.com/K4zuki/pandoc_misc/archive/techbookfest-3.zip && \
 
     apt-get -y remove *-doc curl wget python3-pip && \
       rm /pandoc-$PANDOC_VERSION-1-amd64.deb && \
       rm /linux*.gz && \
+      rm -r ~/.cache/pip && \
+      npm cache clean && \
       apt-get -y clean && apt -y autoremove
 
 USER pandocker
 
 RUN whoami && cd && \
     ls -l && \
-    unzip -e techbookfest-3.zip && mv pandoc_misc-techbookfest-3 pandoc_misc ; \
+    # unzip -e techbookfest-3.zip && mv pandoc_misc-techbookfest-3 pandoc_misc ; \
     which gpp ; \
     which rsvg-convert ; \
     which python3 ; \
@@ -81,12 +84,11 @@ RUN whoami && cd && \
     which bitfield ; \
     which wavedrom ; \
     which plantuml ; \
-    tlmgr init-usertree
-# RUN git clone https://github.com/K4zuki/pandoc_misc.git
+    tlmgr option repository ftp://tug.org/historic/systems/texlive/2015/tlnet-final ; \
+    tlmgr install oberdiek ; \
+    tlmgr init-usertree ; \
+    git clone https://github.com/K4zuki/pandoc_misc.git -b pandocker
 
-# RUN tlmgr option repository ftp://tug.org/historic/systems/texlive/2015/tlnet-final && \
-#     tlmgr install oberdiek && \
-#     tlmgr init-usertree
 
 WORKDIR /home/pandocker
 
