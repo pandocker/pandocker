@@ -39,7 +39,7 @@ RUN apt-get -y install nodejs-legacy npm && \
       fs-extra yargs onml bit-field
 
 RUN apt-get -y install --no-install-recommends texlive-xetex xzdec lmodern fonts-ricty-diminished \
-      texlive-fonts-recommended texlive-lang-japanese
+      texlive-fonts-recommended texlive-generic-recommended texlive-lang-japanese
 RUN mkdir -p /usr/share/texlive/texmf-dist/tex/latex/BXptool/ && \
     wget -c https://github.com/zr-tex8r/BXptool/archive/v0.4.zip && \
       unzip -e v0.4.zip && \
@@ -48,9 +48,6 @@ RUN wget -c https://github.com/adobe-fonts/source-code-pro/archive/2.030R-ro/1.0
       unzip -e 1.050R-it.zip && cp source-code-pro-2.030R-ro-1.050R-it/TTF/SourceCodePro-*.ttf /usr/local/share/fonts/
 RUN wget -c https://github.com/adobe-fonts/source-sans-pro/archive/2.020R-ro/1.075R-it.zip && \
       unzip -e 1.075R-it.zip && cp source-sans-pro-2.020R-ro-1.075R-it/TTF/SourceSansPro-*.ttf /usr/local/share/fonts/
-# RUN wget -c https://github.com/mzyy94/RictyDiminished-for-Powerline/archive/3.2.4-powerline-early-2016.zip && \
-#       unzip -e 3.2.4-powerline-early-2016.zip && \
-#       cp RictyDiminished-for-Powerline-3.2.4-powerline-early-2016/RictyDiminished-*.ttf /usr/local/share/fonts/
 RUN tlmgr option repository ftp://tug.org/historic/systems/texlive/2015/tlnet-final ; \
     tlmgr install oberdiek ; \
     mktexlsr
@@ -58,7 +55,7 @@ RUN tlmgr option repository ftp://tug.org/historic/systems/texlive/2015/tlnet-fi
 RUN mkdir /workspace && \
     cd /workspace
 
-RUN apt-get -y remove *-doc python3-pip && \
+RUN apt-get -y remove python3-pip && \
       rm /pandoc-$PANDOC_VERSION-1-amd64.deb && \
       rm /linux*.gz && \
       rm -r ~/.cache/pip && \
