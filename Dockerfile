@@ -7,6 +7,8 @@ ENV PANDOC_VERSION 2.0.1.1
 ENV PANDOC_DOWNLOAD_URL https://github.com/jgm/pandoc/releases/download/$PANDOC_VERSION/pandoc-$PANDOC_VERSION-1-amd64.deb
 ENV PANDOC_ROOT /usr/local/pandoc
 
+ENV LANG C.UTF-8
+
 RUN echo "deb http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ xenial main restricted universe multiverse" > /etc/apt/sources.list && \
     echo "deb http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ xenial-updates main restricted universe multiverse" >> /etc/apt/sources.list && \
     echo "deb http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ xenial-security main restricted universe multiverse" >> /etc/apt/sources.list && \
@@ -61,7 +63,7 @@ RUN echo "deb http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ xenial main restricted un
       npm cache clean && \
       apt-get -y clean && \
     fc-cache -fv && \
-    git clone --depth=1 -b pandocker-0.0.1 https://github.com/K4zuki/pandoc_misc.git
+    git clone --recursive --depth=1 -b pandocker-0.0.1 https://github.com/K4zuki/pandoc_misc.git
 
 WORKDIR /workspace
 
