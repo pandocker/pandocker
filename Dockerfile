@@ -38,7 +38,7 @@ RUN echo "deb http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ xenial main restricted un
     npm install -g phantomjs-prebuilt wavedrom-cli \
       fs-extra yargs onml bit-field && \
 
-    apt-get -y install --no-install-recommends texlive-xetex xzdec texlive-lang-japanese && \
+    apt-get -y install --no-install-recommends texlive-xetex xzdec lmodern texlive-generic-recommended texlive-lang-japanese && \
     mkdir -p /usr/share/texlive/texmf-dist/tex/latex/BXptool/ && \
       wget -c https://github.com/zr-tex8r/BXptool/archive/v0.4.zip && \
       unzip -e v0.4.zip && \
@@ -51,19 +51,8 @@ RUN echo "deb http://ftp.jaist.ac.jp/pub/Linux/ubuntu/ xenial main restricted un
     wget -c https://github.com/mzyy94/RictyDiminished-for-Powerline/archive/3.2.4-powerline-early-2016.zip && \
       unzip -e 3.2.4-powerline-early-2016.zip && \
       cp RictyDiminished-for-Powerline-3.2.4-powerline-early-2016/RictyDiminished-*.ttf /usr/local/share/fonts/ && \
-    which gpp ; \
-    which rsvg-convert ; \
-    which python3 ; \
-    which pandoc ; \
-    which pandoc-crossref ; \
-    which xelatex ; \
-    which csv2table ; \
-    which pantable ; \
-    which panflute ; \
-    which pandoc-imagine ; \
-    which bitfield ; \
-    which wavedrom ; \
-    which plantuml ; \
+      tlmgr option repository ftp://tug.org/historic/systems/texlive/2015/tlnet-final && \
+      tlmgr install oberdiek && \
 
     addgroup --gid 82 pandocker && adduser --uid 82 --disabled-password --system --group pandocker && \
     cd /home/pandocker && \
@@ -78,7 +67,21 @@ USER pandocker
 
 RUN whoami && cd && \
     ls -l && \
-    unzip -e techbookfest-3.zip && mv pandoc_misc-techbookfest-3 pandoc_misc
+    unzip -e techbookfest-3.zip && mv pandoc_misc-techbookfest-3 pandoc_misc ; \
+    which gpp ; \
+    which rsvg-convert ; \
+    which python3 ; \
+    which pandoc ; \
+    which pandoc-crossref ; \
+    which xelatex ; \
+    which csv2table ; \
+    which pantable ; \
+    which panflute ; \
+    which pandoc-imagine ; \
+    which bitfield ; \
+    which wavedrom ; \
+    which plantuml ; \
+    tlmgr init-usertree
 # RUN git clone https://github.com/K4zuki/pandoc_misc.git
 
 # RUN tlmgr option repository ftp://tug.org/historic/systems/texlive/2015/tlnet-final && \
