@@ -2,7 +2,7 @@ FROM k4zuki/pandocker-base
 
 MAINTAINER k4zuki
 
-ENV PANDOC_MISC_VERSION pandocker
+ENV PANDOC_MISC_VERSION pandocker-0.0.2
 
 WORKDIR /var
 
