@@ -7,10 +7,10 @@ jobs:
       - checkout
       - run:
           name: Make HTML
-          command: make html
+          command: make initdir html
       - run:
           name: Make PDF
-          command: make pdf
+          command: make initdir pdf
       # - run:
       #     name: Greeting
       #     command: echo Hello, world.
