@@ -1,4 +1,22 @@
 # まえがき {-}
+
+```
+ ________________
+< Dockerはいいぞ >
+ ----------------
+    \\
+     \\
+      \\
+                    ##        .
+              ## ## ##       ==
+           ## ## ## ##      ===
+       /""""""""""""""""___/ ===
+  ~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /  ===- ~~~
+       \______ o          __/
+        \    \        __/
+          \____\______/
+```
+
 このドキュメントは、技術書典3にて発表した「私的Markdown-PDF変換環境を紹介する本」の続編に当たる本です。
 ~~前作の売れ行きが予想を上回って冬コミ在庫が心許ない事になったので続編を書くことにしました~~
 前作の予告通りDockerイメージを構築するところまでうまく行ったので、その報告です。
@@ -21,9 +39,14 @@ PandocおよびPandocフィルタをインストールし、その他便利コ�
 **Fall Creators Update(2017)を適用したWindow10PC**を使って下さい。WSLは不要というかちゃんと動かないらしいので
 対象外です。
 
+**と思ったのですが筆者のDocker for Windows環境ではどーーーーーしてもホストのドライブがマウントできず実験が
+続行できませんでした。ということで本作でもWindowsは対象外にします。Windows10ユーザさんは前作の内容に則って
+WSL上のUbuntuを使ってください。**あるいは今後筆者がCIビルド環境を起こすまでお待ち下さい。
+C93は無理っぽいから技術書典４とかでお会いしましょう。
+
 Linux/Macユーザさんは前作での実績もあるし問題はほぼないものと思います。
 
-筆者が確認したOSはUbuntu16.04LTS/MacOS Sierra/Windows10(FallUCreatorsUpdate)です。
+筆者が確認したOSはUbuntu16.04LTS/MacOS Sierraです。
 
 [^windows-lol]: Windowsとかずっとオープンβ()だし無視しようよ（悪魔~~天使~~）
 vs.
@@ -44,7 +67,7 @@ PDF出力のときに横長の表を引用するのが楽になりました。�
     - <https://qiita.com/genyajoe/items/4ca0652587651593d502>
 
 `````markdown
-\\Begin{landscape}
+\\Startlandscape
 ```table
 ---
 caption: 'SSCI_SPI_LCD BOM テーブル（抜粋）'
@@ -52,7 +75,7 @@ include: "data/SSCI_SPI_LCD.csv"
 width: 1.0
 ---
 ```
-\\End{landscape}
+\\Stoplandscape
 `````
 
 \\Startlandscape
@@ -70,8 +93,9 @@ table-width: 1.0
 画像ではなく普通のハイパーリンク表記を使います。頭に`!`がつかない方です。
 この表記をするときは前後に空行を追加し、同じ行にリンク以外何もない状態にする必要があります。
 さらに、ソースコードの一部を引用することもできるようになりました。引用元ファイルの`from`行目から
-`to`行目を引用します。`from=5`、`to=12`のとき5行目から引用し、12行目を _含みます_。
-また、オプションの統廃合を行いました。
+`to`行目を引用します。`from=5`、`to=12`のとき５行目から１２行目を引用します。引用された部分の最後の空行は、
+HTML出力ではそのままですが、PDF出力ではTeXによって詰められてしまいます。
+また、classを廃止しtypeに統一するなどオプションの統廃合を行いました。
 
 ```table
 ---
@@ -81,9 +105,9 @@ alignment: DCCD
 ---
 オプション,省略可能,デフォルト値,意味
 `source`^[ブロック表記のとき。インライン表記ではURL部で指定する],N,,ソースファイル名(フルパス)
-~~class~~,~~N~~,,"~~ソースファイル種類(python,cpp,markdown etc.)~~**廃止**。`type`で統一"
+~~class~~**廃止**,~~N~~,,"~~ソースファイル種類(python,cpp,markdown etc.)~~ `type`で統一"
 `type`,Y,plain,"ソースファイル種類(python,cpp,markdown etc.)"
-~~tex~~,~~Y~~,~~False~~,~~LaTeXを出力するとき"True"にする。case sensitive~~**廃止**
+~~tex~~**廃止**,~~Y~~,~~False~~,~~LaTeXを出力するとき"True"にする。case sensitive~~
 `from`,Y,1,引用元ソースの切り出し開始行
 `to`,Y,max,引用元ソースの切り出し終了行
 ```
@@ -102,15 +126,61 @@ alignment: DCCD
 次の文章
 
 ## リポジトリにタグを打つようにした
+`pandoc_misc`の環境はgitによる管理はあっても今まで自分の自分による自分のためのものだったので、内容は結構適当でした。
+
 # Dockerイメージを使ってHTML/PDFを出力する（本編）
 ## _pandocker_ Dockerイメージ
+とりあえず動くようになったDockerイメージ「`pandocker`」の解説をしていきます。
+
+### ベースイメージの選定：Alpine vs. Ubuntu
+どうやらAlpine LinuxっていうBusyBoxベースの軽量イメージを改造して使うのが最近の流行らしいんですよね。
+たしかに組み込みで権威のある（？）Busybox系なら軽量です。Pandocフィルタが動作する環境はPythonやらNodeJSやらは新しめの
+バージョン（Python3.5+/NodeJS4系LTS）ならいけるようなので、めんどくさいTeXと発表したばっかのPandoc2.0を
+どうにかすればいいという目論見でした。それは概ねうまく行っていて、先達の成果をニコイチしてそれなりのところまで
+構築した[^pandocker-alpine]んですが、xelatexがglibc付近でコアダンプしてうまく動かずPDFを作れないので
+実験を中断しました[^base-images]。いちおうDockerfileをAppendixに足しておきます。
+
+[^base-images]: 先達の名誉のために付け足しておくと、_`platex`は動きます_。
+platex系で構わないひとは叩き台にしてもいいと思います。
+
+参考になったAlpineベースのイメージ：
+
+- skyzyx/alpine-pandoc
+    - https://github.com/skyzyx/alpine-pandoc
+    - https://hub.docker.com/r/skyzyx/alpine-pandoc/
+- paperist/alpine-texlive-ja
+    - https://github.com/Paperist/docker-alpine-texlive-ja
+    - https://hub.docker.com/r/paperist/alpine-texlive-ja/
+
+とりあえず動くものを作っておいて入れ替える作戦に切り替えて、実績のあるUbuntu16.04ベースで安直に
+構築したものが`pandocker`というわけです。実際は共通部分の`pandocker-base`とリポジトリ追いかけ部分の`pandocker`に
+分かれています。以下にDocker Hubのアドレスを置いておきます。
+
+- k4zuki/pandocker-base
+    - https://github.com/K4zuki/pandocker-base
+- k4zuki/pandocker:
+    - https://github.com/K4zuki/pandocker
+
+安直ビルドなのでイメージサイズが重めです。**737 MB** だそうです。
+
+[^pandocker-alpine]: https://github.com/K4zuki/pandocker-alpine ほとんどメンテされてません
+
 ## pandockerを使う
+### インストールする
+Dockerの入手・導入は容易です。
+
+- dmg: https://www.docker.com/docker-mac
+- deb: https://www.docker.com/docker-ubuntu
+
+ちゃんと動くようにしたあと、イメージをダウンロードしてきます。
+```sh
+docker pull k4zuki/pandocker
+```
+
 ### 原稿リポジトリを作る
 ### 原稿を書く
 ### 出力する
 # Appendix {-}
-## Dockerfileを入手して自力でビルドする {-}
-### github リポジトリ {-}
 ### Dockerfile {-}
 [`pandocker-base`のDockerfile](pandocker-base/Dockerfile){.listingtable type=dockerfile}
 
@@ -123,3 +193,4 @@ alignment: DCCD
 - 次は自作python製PandocフィルタをPyPiに登録する and/or CIビルドの構築かな。CircleCIが候補に挙がってる
 - 最終目標はmarkdownを書いてコミットしてプッシュするとCIされてHTML／PDFがGitHubのリリースページに置かれる
 というところまでです。きっと誰かすでに実現してるしそうでなくても参考情報はいっぱいあるので助かってます:)
+- Windowsｪ...
