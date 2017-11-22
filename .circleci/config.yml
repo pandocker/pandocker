@@ -2,12 +2,22 @@ version: 2
 jobs:
   build:
     docker:
-      - image: debian:stretch
+      - image: k4zuki/pandocker
     steps:
       - checkout
       - run:
-          name: Greeting
-          command: echo Hello, world.
+          name: Make HTML
+          command: make html
       - run:
-          name: Print the Current Time
-          command: date
+          name: Make PDF
+          command: make pdf
+      # - run:
+      #     name: Greeting
+      #     command: echo Hello, world.
+      # - run:
+      #     name: Print the Current Time
+      #     command: date
+general:
+  branches:
+    ignore:
+      - master
