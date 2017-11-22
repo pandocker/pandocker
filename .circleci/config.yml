@@ -6,6 +6,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: get submodule
+          command: git submodule update --init
+      - run:
           name: Make HTML
           command: make initdir html
       - run:
