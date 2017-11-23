@@ -2,7 +2,7 @@ FROM k4zuki/pandocker-base
 
 MAINTAINER k4zuki
 
-ENV PANDOC_MISC_VERSION pandocker-0.0.7
+ENV PANDOC_MISC_VERSION 0.0.8
 ENV TZ JST
 
 WORKDIR /usr/local/bin

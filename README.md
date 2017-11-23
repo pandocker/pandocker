@@ -15,8 +15,7 @@ git init
 
 #### installation
 ```sh
-docker run --rm -it -v $PWD:/workspace k4zuki/pandocker cp /var/pandoc_misc/Makefile.txt ./Makefile
-docker run --rm -it -v $PWD:/workspace k4zuki/pandocker make init
+docker run --rm -it -v $PWD:/workspace k4zuki/pandocker make -f /var/pandoc_misc/Makefile init
 > mkdir -p ./
 > mkdir -p ./Out
 > mkdir -p ./data
@@ -28,8 +27,8 @@ docker run --rm -it -v $PWD:/workspace k4zuki/pandocker make init
 > cp -i /var/pandoc_misc/Makefile.txt ./Makefile
 > cp: overwrite './Makefile'? y
 > cp -i /var/pandoc_misc/config.txt ./markdown/config.yaml
+> cp -i /var/pandoc_misc/.gitignore ./markdown/.gitignore
 > touch ./markdown/TITLE.md
-> echo "Out/" > .gitignore
 
 git add .
 git commit -m"initial commit"
