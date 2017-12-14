@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build . -t pandocker-alpine
+docker build . -t pandocker
