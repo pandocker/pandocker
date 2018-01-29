@@ -9,6 +9,7 @@ RUN wget -c https://github.com/tcnksm/ghr/releases/download/v0.5.4/ghr_v0.5.4_li
     unzip -e ghr_v0.5.4_linux_amd64.zip && rm ghr_v0.5.4_linux_amd64.zip
 
 RUN pip3 install git+https://github.com/K4zuki/wavedrompy.git \
+      git+https://github.com/K4zuki/bitfieldpy.git \
       git+https://github.com/K4zuki/pandocker-filters.git
 
 WORKDIR /var
