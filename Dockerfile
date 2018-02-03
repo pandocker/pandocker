@@ -11,7 +11,7 @@ RUN wget -c https://github.com/tcnksm/ghr/releases/download/v0.5.4/ghr_v0.5.4_li
 RUN pip3 install git+https://github.com/K4zuki/wavedrompy.git \
       git+https://github.com/K4zuki/bitfieldpy.git \
       git+https://github.com/K4zuki/pandocker-filters.git \
-      git+https://github.com/K4zuki/removalnotes.git
+      git+https://github.com/pandocker/removalnotes.git
 
 WORKDIR /var
 ENV PANDOC_MISC_VERSION -b 0.0.18
