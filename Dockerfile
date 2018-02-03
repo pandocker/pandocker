@@ -18,8 +18,8 @@ ENV PANDOC_MISC_VERSION -b 0.0.18
 RUN git clone --recursive --depth=1 $PANDOC_MISC_VERSION https://github.com/K4zuki/pandoc_misc.git && \
     apt install -y --no-install-recommends texlive-pstricks
 
-WORKDIR /workspace
+WORKDIR /workdir
 
-VOLUME ["/workspace"]
+VOLUME ["/workdir"]
 
 CMD ["bash"]
