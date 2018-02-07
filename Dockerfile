@@ -2,7 +2,7 @@ FROM k4zuki/pandocker-base
 
 MAINTAINER k4zuki
 
-ENV TZ JST
+ENV TZ JST-9
 
 WORKDIR /usr/local/bin
 RUN wget -c https://github.com/tcnksm/ghr/releases/download/v0.5.4/ghr_v0.5.4_linux_amd64.zip && \
