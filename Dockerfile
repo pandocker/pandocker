@@ -15,7 +15,7 @@ RUN pip3 install git+https://github.com/K4zuki/wavedrompy.git \
       git+https://github.com/pandocker/tex-landscape.git
 
 WORKDIR /var
-ENV PANDOC_MISC_VERSION -b 0.0.22
+ENV PANDOC_MISC_VERSION -b 0.0.23
 RUN git clone --recursive --depth=1 $PANDOC_MISC_VERSION https://github.com/K4zuki/pandoc_misc.git && \
     apt install -y --no-install-recommends texlive-pstricks
 
