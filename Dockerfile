@@ -12,7 +12,8 @@ RUN pip3 install git+https://github.com/K4zuki/bitfieldpy.git \
       git+https://github.com/K4zuki/pandocker-filters.git \
       git+https://github.com/pandocker/removalnotes.git \
       git+https://github.com/pandocker/tex-landscape.git \
-      git+https://github.com/pandocker/pandoc-blockdiag-filter.git
+      git+https://github.com/pandocker/pandoc-blockdiag-filter.git \
+      git+https://github.com/pandocker/pandoc-docx-pagebreak-py.git
 
 WORKDIR /var
 ENV PANDOC_MISC_VERSION -b 0.0.34
