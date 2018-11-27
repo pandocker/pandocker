@@ -17,7 +17,7 @@ RUN pip3 install bitfieldpy pandoc-pandocker-filters \
       git+https://github.com/pandocker/pandoc-svgbob-filter.git
 
 WORKDIR /var
-ENV PANDOC_MISC_VERSION -b 0.0.34
+ENV PANDOC_MISC_VERSION -b 0.0.35
 RUN git clone --recursive --depth=1 $PANDOC_MISC_VERSION https://github.com/K4zuki/pandoc_misc.git && \
     apt install -y --no-install-recommends texlive-pstricks
 
