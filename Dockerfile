@@ -1,4 +1,4 @@
-FROM k4zuki/pandocker-base:notex
+FROM k4zuki/pandocker-base
 
 MAINTAINER k4zuki
 
