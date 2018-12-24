@@ -19,6 +19,8 @@ RUN pip3 install bitfieldpy pandoc-pandocker-filters \
 RUN pip3 install git+https://github.com/k4zuki/pandoc_misc.git@pandocker \
       git+https://github.com/k4zuki/docx-core-property-writer.git
 
+RUN apt install -y ttf-freefont ttf-liberation cli-spinner
+
 WORKDIR /workdir
 
 VOLUME ["/workdir"]
