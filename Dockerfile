@@ -15,7 +15,7 @@ RUN pip3 install bitfieldpy pandoc-pandocker-filters \
       git+https://github.com/pandocker/pandoc-docx-pagebreak-py.git \
       git+https://github.com/pandocker/pandoc-docx-utils-py.git \
       git+https://github.com/pandocker/pandoc-svgbob-filter.git \
-      git+https://github.com/pandocker/pandoc-lua-filters.git
+      git+https://github.com/pandocker/pandocker-lua-filters.git
 
 RUN pip3 install git+https://github.com/k4zuki/pandoc_misc.git@lua-filter \
       git+https://github.com/k4zuki/docx-core-property-writer.git
