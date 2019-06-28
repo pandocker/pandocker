@@ -10,7 +10,7 @@ ENV TZ JST-9
 
 RUN pip3 install -U bitfieldpy pandoc-pandocker-filters \
       git+https://github.com/pandocker/removalnotes.git \
-      git+https://github.com/pandocker/tex-landscape.git \
+#      git+https://github.com/pandocker/tex-landscape.git \
       git+https://github.com/pandocker/pandoc-blockdiag-filter.git \
       git+https://github.com/pandocker/pandoc-docx-pagebreak-py.git \
       git+https://github.com/pandocker/pandoc-docx-utils-py.git \
