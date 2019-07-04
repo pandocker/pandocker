@@ -1,4 +1,4 @@
-FROM k4zuki/pandocker-base
+FROM k4zuki/pandocker-base:18.04
 
 MAINTAINER k4zuki
 
